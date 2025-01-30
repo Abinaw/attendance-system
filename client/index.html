@@ -27,11 +27,39 @@
 <script>
 
     function loginUser(){
-        var username = document.getElementById('username').value;
-        var password = document.getElementById('password').value;
+        var userInputUsername = document.getElementById('username').value;
+        var userInputPassword  = document.getElementById('password').value;
 
-        if (validateCredentials(username,password)) {
-            console.log("Valid username and password")
+        if (validateCredentials(userInputUsername,userInputPassword)) {
+            const data = {
+            username: userInputUsername,
+            password: userInputPassword
+        };
+
+        fetch('http://localhost:8080/user/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => {
+                if (!res.ok) {
+                    return res.text().then(errorMessage => {
+                        if(res.status == 400)
+                            alert("The username or password you entered is incorrect.");
+                        throw new Error(`Server Error: ${errorMessage}`);
+                    });
+                }
+                return res.text();
+            })
+            .then(responseText => {
+                localStorage.setItem("token", responseText)
+                window.location.href = 'home.html';
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
         }
     }
 
