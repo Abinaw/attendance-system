@@ -20,9 +20,43 @@
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <button type="submit">Login</button>
+            <button type="button" onclick="loginUser()">Login</button>
         </form>
     </div>
 </body>
+<script>
+
+    function loginUser(){
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+
+        if (validateCredentials(username,password)) {
+            console.log("Valid username and password")
+        }
+    }
+
+    function isValidUsername(username) {
+        const usernameRegex = /^(?=.*[a-zA-Z])[^\s]+$/;
+        return usernameRegex.test(username);
+    }
+
+    function isValidPassword(password) {
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        return passwordRegex.test(password);
+    }
+
+    function validateCredentials(username, password) {
+        if (!isValidUsername(username)) {
+            alert("Invalid username")
+            return false
+        }
+
+        if (!isValidPassword(password)) {
+            alert("Invalid password")
+            return false
+        }
+        return true;
+    }
+</script>
 
 </html>
