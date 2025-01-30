@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,13 +27,13 @@ public class UserLoginController {
     private final JwtUtil jwtUtil;
 
     @PostMapping("login")
-    public String userLogin(
+    public ResponseEntity<String> userLogin(
             @Valid @RequestBody UserLoginDto userLoginDto
     ){
         if (isValidUser(userLoginDto.getUsername().toLowerCase(), userLoginDto.getPassword())) {
-            return jwtUtil.generateToken(userLoginDto.getUsername());
+            return new ResponseEntity<>(jwtUtil.generateToken(userLoginDto.getUsername()), HttpStatus.OK) ;
         } else {
-            return "Invalid username or password";
+            return new ResponseEntity<>("Invalid username or password",HttpStatus.BAD_REQUEST);
         }
     }
 
