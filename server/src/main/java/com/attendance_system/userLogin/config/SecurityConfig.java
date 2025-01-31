@@ -14,7 +14,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/user/login")
+                        .requestMatchers("/user/login","/","/static/**","/index.html", "/home.html" ,"/styles.css", "/jwtValidation.js", "/favicon.ico")
                         .permitAll()
                         .anyRequest()
                         .authenticated()
