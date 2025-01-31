@@ -68,10 +68,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
 					<excludes>
-						<path>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</path>
+						<exclude>**/SomeFile.java</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
